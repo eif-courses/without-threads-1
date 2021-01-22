@@ -5,9 +5,12 @@ import eif.viko.lt.threadsapi.concurrent.domain.ExhibitOption;
 
 import java.util.List;
 
-public class ExhibitInfoService {
-  public ExhibitInfo retrieveExhibitInfo(String id) {
+import static java.lang.Thread.sleep;
 
+public class ExhibitInfoService {
+  public ExhibitInfo retrieveExhibitInfo(String id) throws InterruptedException {
+
+    sleep(2000);
     List<ExhibitOption> exhibitOptions = List.of(
         new ExhibitOption(1, "gltf", "https://picsum.photos/200/300", "https://eif.viko.lt", "https://eif.viko.lt"),
         new ExhibitOption(2, "obj", "https://picsum.photos/200/300", "https://eif.viko.lt", "https://eif.viko.lt")

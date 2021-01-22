@@ -18,13 +18,13 @@ public class ExhibitService {
     this.exhibitRatingService = exhibitRatingService;
   }
 
-  public Exhibit retrieveExhibitDetails(String id){
+  public Exhibit retrieveExhibitDetails(String id) throws InterruptedException {
     ExhibitInfo exhibitInfo = exhibitInfoService.retrieveExhibitInfo(id);
     ExhibitRating exhibitRating = exhibitRatingService.retrieveExhibitRating(id);
     return new Exhibit(id, exhibitInfo, exhibitRating);
   }
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException, InterruptedException {
     ExhibitInfoService infoService = new ExhibitInfoService();
     ExhibitRatingService ratingService = new ExhibitRatingService();
     ExhibitService exhibitService = new ExhibitService(infoService, ratingService);
