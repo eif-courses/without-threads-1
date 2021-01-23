@@ -3,40 +3,57 @@ package eif.viko.lt.threadsapi.concurrent.ui;
 import eif.viko.lt.threadsapi.concurrent.domain.Exhibit;
 import eif.viko.lt.threadsapi.concurrent.domain.ExhibitOption;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class GUI extends JFrame {
 
+  private final Map<String, ImageIcon> imageMap;
+
   public GUI(Exhibit exhibit) throws IOException {
-
     List<ExhibitOption> exhibitOptionList = exhibit.getExhibitInfo().getExhibitOptionList();
-
     long likes = exhibit.getExhibitRating().getLikeCount();
-
-
-    JPanel jPanel = new JPanel(new GridLayout(exhibitOptionList.size(),1 ));
-    setSize(new Dimension(1024, 768));
-
-    for (ExhibitOption e : exhibit.getExhibitInfo().getExhibitOptionList()) {
-      jPanel.add(new JLabel(String.format("%s %s", "Model: ",e.getModelType())));
-      String path = e.getImageURL();
-      URL url = new URL(path);
-      BufferedImage image = ImageIO.read(url);
-      jPanel.add(new JLabel(new ImageIcon(image)));
+    imageMap = new HashMap<>();
+    for (ExhibitOption e : exhibitOptionList) {
+      imageMap.put(e.getName(), new ImageIcon(new URL(e.getImageURL())));
     }
-    jPanel.add(new JLabel(String.format("%s %s", "Like count: ", likes)));
+    JList<Object> list = new JList<>(imageMap.keySet().toArray());
+    list.setCellRenderer(new ExhibitListRenderer());
+    JScrollPane scrollPane = new JScrollPane(list);
+    scrollPane.setPreferredSize(new Dimension(800, 600));
 
-    add(jPanel);
-    setVisible(true);
+    add(scrollPane);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
+    pack();
+    setLocationRelativeTo(null);
+    setVisible(true);
+  }
+
+  private class ExhibitListRenderer extends DefaultListCellRenderer {
+    Font font = new Font("helvitica", Font.BOLD, 24);
+
+    @Override
+    public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+
+      JLabel jLabel = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+
+      Image scaleImage = imageMap.get(value).getImage().getScaledInstance(64, 64, Image.SCALE_FAST);
+      ImageIcon imageIcon = new ImageIcon(scaleImage);
+      jLabel.setIcon(imageIcon);
+      jLabel.setHorizontalTextPosition(JLabel.RIGHT);
+      jLabel.setFont(font);
+
+      return jLabel;
+    }
 
   }
+
+
 }

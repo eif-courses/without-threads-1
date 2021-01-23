@@ -7,6 +7,7 @@ import eif.viko.lt.threadsapi.concurrent.service.ExhibitInfoService;
 import eif.viko.lt.threadsapi.concurrent.service.ExhibitRatingService;
 import eif.viko.lt.threadsapi.concurrent.ui.GUI;
 
+import javax.swing.*;
 import java.io.IOException;
 
 public class ExhibitService {
@@ -31,9 +32,15 @@ public class ExhibitService {
     String id = "EIF2021";
     Exhibit exhibit = exhibitService.retrieveExhibitDetails(id);
 
-    new GUI(exhibit);
+    SwingUtilities.invokeLater(()-> {
+      try {
+        new GUI(exhibit);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    });
 
-    System.out.println(exhibit.getExhibitRating().getLikeCount());
+
 
   }
 }
