@@ -21,7 +21,7 @@ public class GUI extends JFrame {
     long likes = exhibit.getExhibitRating().getLikeCount();
     imageMap = new HashMap<>();
     for (ExhibitOption e : exhibitOptionList) {
-      imageMap.put(e.getName(), new ImageIcon(new URL(e.getImageURL())));
+      imageMap.put(e.getName(), new ImageIcon(e.getImageURL()));
     }
     JList<Object> list = new JList<>(imageMap.keySet().toArray());
     list.setCellRenderer(new ExhibitListRenderer());
@@ -42,11 +42,8 @@ public class GUI extends JFrame {
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 
       JLabel jLabel = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
-
-      Image scaleImage = imageMap.get(value).getImage().getScaledInstance(64, 64, Image.SCALE_FAST);
-      ImageIcon imageIcon = new ImageIcon(scaleImage);
-      jLabel.setIcon(imageIcon);
+      // Custom List item label
+      jLabel.setIcon(imageMap.get(value));
       jLabel.setHorizontalTextPosition(JLabel.RIGHT);
       jLabel.setFont(font);
 
@@ -54,6 +51,4 @@ public class GUI extends JFrame {
     }
 
   }
-
-
 }

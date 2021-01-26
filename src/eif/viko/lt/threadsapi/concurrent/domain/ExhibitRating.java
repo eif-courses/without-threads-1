@@ -1,8 +1,8 @@
 package eif.viko.lt.threadsapi.concurrent.domain;
 
 public class ExhibitRating {
-  private double starCount;
-  private long likeCount;
+  private final double starCount;
+  private final long likeCount;
 
   public ExhibitRating(double starCount, long likeCount) {
     this.starCount = starCount;

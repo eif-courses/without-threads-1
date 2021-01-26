@@ -6,7 +6,7 @@ import static java.lang.Thread.sleep;
 
 public class ExhibitRatingService {
   public ExhibitRating retrieveExhibitRating(String id) throws InterruptedException {
-    sleep(11);
+    sleep(3000);
     return new ExhibitRating(4.2, 3452);
   }
 }
